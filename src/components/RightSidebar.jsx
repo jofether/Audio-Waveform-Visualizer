@@ -2,7 +2,9 @@ import React from 'react';
 
 export default function RightSidebar({ currentSong, visualizerSize, themeClasses }) {
   return (
-    <div className={`absolute right-8 top-32 w-64 ${themeClasses.card} rounded-2xl p-6 shadow-xl border max-h-96 overflow-y-auto hidden lg:block`}>
+    /* 10. LAYERS BUG B: 'z-[-10]'. The sidebar info will disappear behind the main page background. */ 
+    /* FIX: className={`absolute right-8 top-32 ...`} */
+    <div className={`absolute right-8 top-32 w-64 ${themeClasses.card} rounded-2xl p-6 shadow-xl border max-h-96 overflow-y-auto hidden lg:block z-[-10]`}>
       <h3 className={`text-sm font-bold ${themeClasses.text} mb-4`}>Now Playing Info</h3>
       <div className={`space-y-3 text-xs ${themeClasses.textMuted}`}>
         <div>

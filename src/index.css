@@ -47,15 +47,17 @@ input[type="range"] {
   cursor: pointer;
 }
 
+/* 1. COLOR BUG A: Made the range slider thumb transparent/invisible, so users can't see the drag handle */
+/* FIX: background: linear-gradient(135deg, #818cf8 0%, #ec4899 100%); */
 input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
   width: 12px;
   height: 12px;
-  background: linear-gradient(135deg, #818cf8 0%, #ec4899 100%);
+  background: transparent; 
   border-radius: 50%;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(236, 72, 153, 0.4);
+  box-shadow: none;
 }
 
 input[type="range"]::-moz-range-thumb {

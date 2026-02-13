@@ -11,7 +11,9 @@ export default function SecondaryControls({
   themeClasses 
 }) {
   return (
-    <div className="flex items-center justify-between px-4 mb-6">
+    /* 9. SPACING BUG B: Removed 'justify-between' and 'px-4', causing icons to clump together. */ 
+    /* FIX: className="flex items-center justify-between px-4 mb-6" */
+    <div className="flex items-center mb-6">
       {/* Shuffle */}
       <button 
         onClick={toggleShuffle}

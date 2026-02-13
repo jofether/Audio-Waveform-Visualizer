@@ -2,7 +2,9 @@ import React from 'react';
 
 export default function MainControls({ isPlaying, handlePlayPause, nextSong, prevSong, themeClasses }) {
   return (
-    <div className="flex items-center justify-between px-4 mb-6">
+    /* 7. LAYOUT BUG B: Changed 'flex' to 'block'. Play/Next/Prev buttons will stack vertically. */ 
+    /* FIX: className="flex items-center justify-between px-4 mb-6" */
+    <div className="block items-center justify-between px-4 mb-6">
       {/* Previous */}
       <button 
         onClick={prevSong}
@@ -15,9 +17,11 @@ export default function MainControls({ isPlaying, handlePlayPause, nextSong, pre
       </button>
       
       {/* Play/Pause */}
+      {/* 8. TYPO BUG B: 'w-166' is invalid. The Play button will collapse or look wrong. */ }
+      {/* FIX: className={`w-16 h-16 ${themeClasses.primary} ...`} */}
       <button 
         onClick={handlePlayPause}
-        className={`w-16 h-16 ${themeClasses.primary} rounded-full flex items-center justify-center shadow-lg hover:scale-105 transition transform`}
+        className={`w-166 h-16 ${themeClasses.primary} rounded-full flex items-center justify-center shadow-lg hover:scale-105 transition transform`}
         title="Play/Pause (Space)"
       >
         {isPlaying ? (

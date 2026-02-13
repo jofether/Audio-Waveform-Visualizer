@@ -2,7 +2,9 @@ import React from 'react';
 
 export default function Header({ theme, setTheme, showPlaylist, setShowPlaylist, showSettings, setShowSettings, themeClasses }) {
   return (
-    <div className="absolute top-8 left-8 right-8 flex items-center justify-between">
+    /* 4. LAYERS BUG A: Added 'z-[-1]'. The header controls (Playlist, Settings) will sit behind the background/body. */ 
+    /* FIX: className="absolute top-8 left-8 right-8 flex items-center justify-between" */
+    <div className="absolute top-8 left-8 right-8 flex items-center justify-between z-[-1]">
       <div className="flex gap-2">
         <button
           onClick={() => setShowPlaylist(!showPlaylist)}
