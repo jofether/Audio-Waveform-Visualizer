@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-
+ 
 function App() {
   // State management
   const [isPlaying, setIsPlaying] = useState(false);
