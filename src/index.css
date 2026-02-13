@@ -96,3 +96,83 @@ input[type="range"]::-moz-range-thumb {
 .animate-glow {
   animation: glow 2s ease-in-out infinite;
 }
+
+/* Button animations */
+@keyframes buttonHover {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+button:active {
+  animation: buttonHover 0.3s ease;
+}
+
+/* Neon glow effect */
+.neon-glow {
+  box-shadow: 0 0 10px rgba(34, 211, 238, 0.5), inset 0 0 10px rgba(34, 211, 238, 0.1);
+  border: 1px solid rgba(34, 211, 238, 0.5);
+}
+
+/* Smooth fade transition */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-in;
+}
+
+/* Loading bar */
+@keyframes loading {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+.loading-bar {
+  animation: loading 2s ease-in-out infinite;
+}
+
+/* Pulse animation for icons */
+@keyframes iconPulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+.icon-pulse {
+  animation: iconPulse 2s ease-in-out infinite;
+}
+
+/* Shadow effects */
+.shadow-pink {
+  box-shadow: 0 10px 30px rgba(236, 72, 153, 0.3);
+}
+
+.shadow-cyan {
+  box-shadow: 0 10px 30px rgba(34, 211, 238, 0.3);
+}
+
+/* Custom focus states */
+button:focus-visible {
+  outline: 2px solid rgba(236, 72, 153, 0.5);
+  outline-offset: 2px;
+}

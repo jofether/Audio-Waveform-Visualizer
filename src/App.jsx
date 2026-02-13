@@ -10,6 +10,16 @@ function App() {
   const [theme, setTheme] = useState('dark'); // dark or neon
   const [hoveredBar, setHoveredBar] = useState(null);
   const [animatingBars, setAnimatingBars] = useState(new Array(20).fill(false));
+  const [showPlaylist, setShowPlaylist] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
+  const [bass, setBass] = useState(50);
+  const [treble, setTreble] = useState(50);
+  const [equalizer, setEqualizer] = useState(false);
+  const [visualizerSize, setVisualizerSize] = useState('normal'); // normal, large, compact
+  const [isMuted, setIsMuted] = useState(false);
+  const [favorites, setFavorites] = useState([]);
+  const [showDetailView, setShowDetailView] = useState(false);
+  const [detailViewMode, setDetailViewMode] = useState('info'); // 'info', 'stats', 'more'
   
   // Song data
   const songs = [
@@ -140,8 +150,25 @@ function App() {
   return (
     <div className={`min-h-screen ${themeClasses.bg} flex flex-col items-center justify-center p-8 font-sans transition-colors duration-300`}>
       
-      {/* Header with Theme Toggle */}
-      <div className="absolute top-8 right-8">
+      {/* Header with Controls */}
+      <div className="absolute top-8 left-8 right-8 flex items-center justify-between">
+        <div className="flex gap-2">
+          <button
+            onClick={() => setShowPlaylist(!showPlaylist)}
+            className={`px-3 py-2 rounded-lg ${themeClasses.primary} shadow-lg hover:shadow-xl transition text-xs font-semibold`}
+            title="Toggle Playlist"
+          >
+            📋 Playlist
+          </button>
+          <button
+            onClick={() => setShowSettings(!showSettings)}
+            className={`px-3 py-2 rounded-lg ${themeClasses.primary} shadow-lg hover:shadow-xl transition text-xs font-semibold`}
+            title="Toggle Settings"
+          >
+            ⚙️ Settings
+          </button>
+        </div>
+        
         <button
           onClick={() => setTheme(theme === 'dark' ? 'neon' : 'dark')}
           className={`px-4 py-2 rounded-full ${themeClasses.primary} shadow-lg hover:shadow-xl transition text-sm font-semibold`}
@@ -277,6 +304,21 @@ function App() {
             {repeatMode === 2 && <span className="text-xs absolute mt-8">1</span>}
           </button>
 
+          {/* Mute Button */}
+          <button 
+            onClick={() => setIsMuted(!isMuted)}
+            className={`transition transform hover:scale-110 ${isMuted ? 'text-red-500' : themeClasses.textMuted}`}
+            title="Mute"
+          >
+            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+              {isMuted ? (
+                <path d="M16.6915026,12.4744748 L21.5693473,7.59603197 C22.1459756,7.01940369 22.1459756,5.87425726 21.5693473,5.297622 C20.9925722,4.72150326 19.8474257,4.72150326 19.2706506,5.297622 L14.3931045,10.1760417 L9.51727475,5.29603285 C8.9386922,4.71740562 7.79251259,4.71740562 7.213827,5.29603285 C6.6365484,5.87466007 6.6365484,7.02106978 7.213827,7.59969701 L12.0896356,12.4744748 L7.213827,17.3492526 C6.6365484,17.9278798 6.6365484,19.0740262 7.213827,19.6526535 C7.79251259,20.2312807 8.9386922,20.2312807 9.51727475,19.6526535 L14.3931045,14.7728658 L19.2706506,19.6526535 C19.8474257,20.2312807 20.9925722,20.2312807 21.5693473,19.6526535 C22.1459756,19.0740262 22.1459756,17.9278798 21.5693473,17.3492526 L16.6915026,12.4744748 Z"/>
+              ) : (
+                <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.26 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+              )}
+            </svg>
+          </button>
+
           {/* Theme indicator */}
           <div className={`w-6 h-6 rounded-full ${theme === 'dark' ? 'bg-indigo-500' : 'bg-cyan-400'} animate-pulse`}></div>
 
@@ -291,31 +333,256 @@ function App() {
           </button>
         </div>
 
-        {/* Song List */}
-        <div className={`border-t ${theme === 'dark' ? 'border-gray-700' : 'border-cyan-500/30'} pt-4 mt-4`}>
-          <p className={`text-xs font-semibold ${themeClasses.textMuted} mb-2 uppercase tracking-widest`}>Queue</p>
-          <div className="space-y-2 max-h-32 overflow-y-auto">
-            {songs.map((song, idx) => (
-              <button
-                key={idx}
-                onClick={() => {
-                  setCurrentSongIndex(idx);
-                  setProgress(0);
-                  setIsPlaying(true);
-                }}
-                className={`w-full text-left p-2 rounded transition text-xs ${
-                  idx === currentSongIndex 
-                    ? `${themeClasses.gradientBar} bg-gradient-to-r text-white` 
-                    : `${themeClasses.textMuted} hover:${themeClasses.text}`
-                }`}
-              >
-                <div className="font-semibold">{song.title}</div>
-                <div className="opacity-70">{song.artist}</div>
-              </button>
-            ))}
-          </div>
+        {/* Visualizer Size Controls */}
+        <div className="flex gap-2 mb-6 px-4">
+          <button
+            onClick={() => setVisualizerSize('compact')}
+            className={`flex-1 py-2 rounded transition text-xs font-semibold ${
+              visualizerSize === 'compact' 
+                ? `${themeClasses.primary}` 
+                : `${themeClasses.textMuted} hover:${themeClasses.text} border ${themeClasses.card}`
+            }`}
+          >
+            Compact
+          </button>
+          <button
+            onClick={() => setVisualizerSize('normal')}
+            className={`flex-1 py-2 rounded transition text-xs font-semibold ${
+              visualizerSize === 'normal' 
+                ? `${themeClasses.primary}` 
+                : `${themeClasses.textMuted} hover:${themeClasses.text} border ${themeClasses.card}`
+            }`}
+          >
+            Normal
+          </button>
+          <button
+            onClick={() => setVisualizerSize('large')}
+            className={`flex-1 py-2 rounded transition text-xs font-semibold ${
+              visualizerSize === 'large' 
+                ? `${themeClasses.primary}` 
+                : `${themeClasses.textMuted} hover:${themeClasses.text} border ${themeClasses.card}`
+            }`}
+          >
+            Large
+          </button>
         </div>
 
+        {/* Equalizer Section */}
+        {showSettings && (
+          <div className={`border-t ${theme === 'dark' ? 'border-gray-700' : 'border-cyan-500/30'} pt-4 mb-4`}>
+            <div className="flex items-center justify-between mb-4">
+              <p className={`text-sm font-semibold ${themeClasses.textMuted} uppercase tracking-widest`}>Equalizer</p>
+              <button
+                onClick={() => setEqualizer(!equalizer)}
+                className={`px-3 py-1 rounded text-xs ${equalizer ? `${themeClasses.primary}` : `${themeClasses.textMuted} border`}`}
+              >
+                {equalizer ? 'On' : 'Off'}
+              </button>
+            </div>
+            
+            {equalizer && (
+              <div className="space-y-3">
+                <div>
+                  <label className={`text-xs ${themeClasses.textMuted} block mb-1`}>Bass: {bass}%</label>
+                  <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    value={bass}
+                    onChange={(e) => setBass(parseInt(e.target.value))}
+                    className="w-full h-1 bg-gray-700 rounded-full appearance-none cursor-pointer accent-pink-500"
+                  />
+                </div>
+                <div>
+                  <label className={`text-xs ${themeClasses.textMuted} block mb-1`}>Treble: {treble}%</label>
+                  <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    value={treble}
+                    onChange={(e) => setTreble(parseInt(e.target.value))}
+                    className="w-full h-1 bg-gray-700 rounded-full appearance-none cursor-pointer accent-pink-500"
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Playlist Section */}
+        {showPlaylist && (
+          <div className={`border-t ${theme === 'dark' ? 'border-gray-700' : 'border-cyan-500/30'} pt-4 mt-4`}>
+            <p className={`text-xs font-semibold ${themeClasses.textMuted} mb-2 uppercase tracking-widest`}>Queue</p>
+            <div className="space-y-2 max-h-40 overflow-y-auto">
+              {songs.map((song, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => {
+                    setCurrentSongIndex(idx);
+                    setProgress(0);
+                    setIsPlaying(true);
+                  }}
+                  className={`w-full text-left p-2 rounded transition text-xs ${
+                    idx === currentSongIndex 
+                      ? `bg-gradient-to-r ${themeClasses.gradientBar} text-white` 
+                      : `${themeClasses.textMuted} hover:${themeClasses.text}`
+                  }`}
+                >
+                  <div className="font-semibold">{song.title}</div>
+                  <div className="opacity-70">{song.artist}</div>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Quick Action Buttons */}
+        <div className="grid grid-cols-3 gap-2 mt-6 px-4 border-t pt-4" style={{borderColor: theme === 'dark' ? '#374151' : '#06b6d4'}}>
+          <button 
+            onClick={() => {
+              const isFavorited = favorites.includes(currentSongIndex);
+              if (isFavorited) {
+                setFavorites(favorites.filter(idx => idx !== currentSongIndex));
+              } else {
+                setFavorites([...favorites, currentSongIndex]);
+              }
+            }}
+            className={`py-2 px-3 rounded text-xs font-semibold transition hover:scale-105 ${
+              favorites.includes(currentSongIndex) ? 'bg-red-500 text-white' : themeClasses.primary
+            }`}
+          >
+            {favorites.includes(currentSongIndex) ? '❤️ Favorited' : '🤍 Favorite'}
+          </button>
+          <button 
+            onClick={() => {
+              setShowDetailView(true);
+              setDetailViewMode('stats');
+            }}
+            className={`py-2 px-3 rounded text-xs font-semibold transition hover:scale-105 ${themeClasses.primary}`}
+          >
+            📊 Stats
+          </button>
+          <button 
+            onClick={() => {
+              setShowDetailView(true);
+              setDetailViewMode('more');
+            }}
+            className={`py-2 px-3 rounded text-xs font-semibold transition hover:scale-105 ${themeClasses.primary}`}
+          >
+            🎵 More
+          </button>
+        </div>
+
+        {/* Detail View Modal */}
+        {showDetailView && (
+          <div className={`border-t ${theme === 'dark' ? 'border-gray-700' : 'border-cyan-500/30'} pt-4 mt-4`}>
+            <div className="flex justify-between items-center mb-3">
+              <p className={`text-sm font-semibold ${themeClasses.textMuted} uppercase tracking-widest`}>
+                {detailViewMode === 'stats' ? 'Statistics' : 'More Options'}
+              </p>
+              <button 
+                onClick={() => setShowDetailView(false)}
+                className={`text-lg ${themeClasses.textMuted} hover:${themeClasses.text}`}
+              >
+                ✕
+              </button>
+            </div>
+            
+            {detailViewMode === 'stats' && (
+              <div className="grid grid-cols-2 gap-4 text-sm">
+                <div className={`p-3 rounded ${themeClasses.card} border`}>
+                  <p className={`${themeClasses.textMuted} text-xs`}>Play Count</p>
+                  <p className={`text-lg font-bold ${themeClasses.text}`}>42</p>
+                </div>
+                <div className={`p-3 rounded ${themeClasses.card} border`}>
+                  <p className={`${themeClasses.textMuted} text-xs`}>Last Played</p>
+                  <p className={`text-lg font-bold ${themeClasses.text}`}>2h ago</p>
+                </div>
+                <div className={`p-3 rounded ${themeClasses.card} border`}>
+                  <p className={`${themeClasses.textMuted} text-xs`}>Bitrate</p>
+                  <p className={`text-lg font-bold ${themeClasses.text}`}>320kbps</p>
+                </div>
+                <div className={`p-3 rounded ${themeClasses.card} border`}>
+                  <p className={`${themeClasses.textMuted} text-xs`}>Format</p>
+                  <p className={`text-lg font-bold ${themeClasses.text}`}>MP3</p>
+                </div>
+              </div>
+            )}
+            
+            {detailViewMode === 'more' && (
+              <div className="space-y-2">
+                <button className={`w-full py-2 px-3 rounded text-xs font-semibold transition hover:scale-105 ${themeClasses.primary}`}>
+                  📁 Add to Playlist
+                </button>
+                <button className={`w-full py-2 px-3 rounded text-xs font-semibold transition hover:scale-105 ${themeClasses.primary}`}>
+                  🔗 Share
+                </button>
+                <button className={`w-full py-2 px-3 rounded text-xs font-semibold transition hover:scale-105 ${themeClasses.primary}`}>
+                  ℹ️ About Artist
+                </button>
+                <button className={`w-full py-2 px-3 rounded text-xs font-semibold transition hover:scale-105 ${themeClasses.primary}`}>
+                  💿 View Album
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+
+      </div>
+
+      {/* Right Sidebar - Additional Info */}
+      <div className={`absolute right-8 top-32 w-64 ${themeClasses.card} rounded-2xl p-6 shadow-xl border max-h-96 overflow-y-auto hidden lg:block`}>
+        <h3 className={`text-sm font-bold ${themeClasses.text} mb-4`}>Now Playing Info</h3>
+        <div className={`space-y-3 text-xs ${themeClasses.textMuted}`}>
+          <div>
+            <p className="font-semibold mb-1">Duration</p>
+            <p>{currentSong.duration}</p>
+          </div>
+          <div className="border-t border-gray-700 pt-3">
+            <p className="font-semibold mb-1">Album</p>
+            <p>{currentSong.album}</p>
+          </div>
+          <div className="border-t border-gray-700 pt-3">
+            <p className="font-semibold mb-1">Artist</p>
+            <p>{currentSong.artist}</p>
+          </div>
+          <div className="border-t border-gray-700 pt-3">
+            <p className="font-semibold mb-1">Quality</p>
+            <p>320 kbps • 44.1 kHz</p>
+          </div>
+          <div className="border-t border-gray-700 pt-3">
+            <p className="font-semibold mb-1">Visualizer</p>
+            <p className="capitalize">{visualizerSize}</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Bottom Stats - Left Side */}
+      <div className={`absolute bottom-8 left-8 ${themeClasses.card} rounded-xl p-4 shadow-lg border`}>
+        <div className="grid grid-cols-2 gap-4 text-center">
+          <div>
+            <p className={`text-2xl font-bold ${themeClasses.text}`}>20</p>
+            <p className={`text-xs ${themeClasses.textMuted}`}>Tracks</p>
+          </div>
+          <div>
+            <p className={`text-2xl font-bold ${themeClasses.text}`}>{volume}%</p>
+            <p className={`text-xs ${themeClasses.textMuted}`}>Volume</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Bottom Stats - Right Side */}
+      <div className={`absolute bottom-8 right-8 ${themeClasses.card} rounded-xl p-4 shadow-lg border`}>
+        <div className="grid grid-cols-2 gap-4 text-center">
+          <div>
+            <p className={`text-2xl font-bold ${themeClasses.text}`}>{isShuffle ? '✓' : '—'}</p>
+            <p className={`text-xs ${themeClasses.textMuted}`}>Shuffle</p>
+          </div>
+          <div>
+            <p className={`text-2xl font-bold ${themeClasses.text}`}>{repeatMode}</p>
+            <p className={`text-xs ${themeClasses.textMuted}`}>Repeat</p>
+          </div>
+        </div>
       </div>
 
       {/* Keyboard shortcuts indicator */}
