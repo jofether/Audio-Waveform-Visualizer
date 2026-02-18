@@ -147,8 +147,6 @@ function App() {
     ? {
         bg: 'bg-gray-900',
         card: 'bg-gray-800 border-gray-700',
-        /* 2. COLOR BUG B: Dark theme text set to dark gray (Gray-900), making it unreadable on the dark card */
-        /* FIX: text: 'text-white', */
         text: 'text-gray-900',
         textMuted: 'text-gray-400',
         gradientBar: 'from-indigo-500 to-pink-500',
@@ -164,8 +162,6 @@ function App() {
       };
 
   return (
-    /* 3. LAYOUT BUG A: Removed 'flex' and 'items-center'. The player will lose its centered positioning and stretch full width. */
-    /* FIX: className={`min-h-screen ${themeClasses.bg} flex flex-col items-center justify-center p-8 ...`} */
     <div className={`min-h-screen ${themeClasses.bg} block p-8 font-sans transition-colors duration-300`}>
       
       {/* Header */}
