@@ -2,6 +2,7 @@
   "repository": "Audio Waveform Visualizer",
   "bugs": [
     {
+      "comment": "Bug #1 - text-white",
       "bug_category": "Color",
       "bug_type": "text-white",
       "file_modified": "src/App.jsx",
@@ -12,11 +13,12 @@
       "bounding_box": {
         "x": 0,
         "y": 0,
-        "width": 0,
-        "height": 0
+        "width": 1280,
+        "height": 720
       }
     },
     {
+      "comment": "Bug #2 - flexbox",
       "bug_category": "Layout",
       "bug_type": "flexbox",
       "file_modified": "src/App.jsx",
@@ -24,14 +26,10 @@
       "clean_code": "<div className={`min-h-screen ${themeClasses.bg} flex flex-col items-center justify-center p-8 font-sans transition-colors duration-300`}>",
       "buggy_code": "<div className={`min-h-screen ${themeClasses.bg} block p-8 font-sans transition-colors duration-300`}>",
       "css_selector": "[className*=\"min-h-screen\"]",
-      "bounding_box": {
-        "x": 0,
-        "y": 0,
-        "width": 0,
-        "height": 0
-      }
+      "bounding_box": { "x": 0, "y": 0, "width": 1280, "height": 720 }
     },
     {
+      "comment": "Bug #3 - z-index",
       "bug_category": "Layers",
       "bug_type": "z-index",
       "file_modified": "src/components/Header.jsx",
@@ -47,6 +45,7 @@
       }
     },
     {
+      "comment": "Bug #4 - flexbox",
       "bug_category": "Layout",
       "bug_type": "flexbox",
       "file_modified": "src/components/MainControls.jsx",
@@ -54,14 +53,10 @@
       "clean_code": "<div className=\"flex items-center justify-between px-4 mb-6\">",
       "buggy_code": "<div className=\"block items-center justify-between px-4 mb-6\">",
       "css_selector": ".main-controls",
-      "bounding_box": {
-        "x": 0,
-        "y": 0,
-        "width": 0,
-        "height": 0
-      }
+      "bounding_box": { "x": 65, "y": 487, "width": 382, "height": 139 }
     },
     {
+      "comment": "Bug #5 - width",
       "bug_category": "Typo",
       "bug_type": "width",
       "file_modified": "src/components/MainControls.jsx",
@@ -69,14 +64,10 @@
       "clean_code": "className={`w-16 h-16 ${themeClasses.primary} rounded-full flex items-center justify-center shadow-lg hover:scale-105 transition transform`}",
       "buggy_code": "className={`w-166 h-16 ${themeClasses.primary} rounded-full flex items-center justify-center shadow-lg hover:scale-105 transition transform`}",
       "css_selector": ".play-button",
-      "bounding_box": {
-        "x": 0,
-        "y": 0,
-        "width": 0,
-        "height": 0
-      }
+      "bounding_box": { "x": 81, "y": 524, "width": 32, "height": 64 }
     },
     {
+      "comment": "Bug #6 - z-index",
       "bug_category": "Layers",
       "bug_type": "z-index",
       "file_modified": "src/components/RightSidebar.jsx",
@@ -92,6 +83,7 @@
       }
     },
     {
+      "comment": "Bug #7 - flexbox",
       "bug_category": "Layout",
       "bug_type": "flexbox",
       "file_modified": "src/components/SecondaryControls.jsx",
@@ -99,14 +91,10 @@
       "clean_code": "<div className=\"flex items-center justify-between px-4 mb-6\">",
       "buggy_code": "<div className=\"flex items-center mb-6\">",
       "css_selector": ".secondary-controls",
-      "bounding_box": {
-        "x": 0,
-        "y": 0,
-        "width": 0,
-        "height": 0
-      }
+      "bounding_box": { "x": 65, "y": 650, "width": 382, "height": 24 }
     },
     {
+      "comment": "Bug #8 - margin-bottom",
       "bug_category": "Spacing",
       "bug_type": "margin-bottom",
       "file_modified": "src/components/SongInfo.jsx",
@@ -114,14 +102,10 @@
       "clean_code": "<div className=\"text-center mb-10\">",
       "buggy_code": "<div className=\"text-center mb-[-50px]\">",
       "css_selector": ".song-info",
-      "bounding_box": {
-        "x": 0,
-        "y": 0,
-        "width": 0,
-        "height": 0
-      }
+      "bounding_box": { "x": 65, "y": 249, "width": 382, "height": 52 }
     },
     {
+      "comment": "Bug #9 - font-size",
       "bug_category": "Typo",
       "bug_type": "font-size",
       "file_modified": "src/components/SongInfo.jsx",
@@ -129,14 +113,10 @@
       "clean_code": "<h2 className={`text-2xl font-bold ${themeClasses.text} mb-1`}>{currentSong.title}</h2>",
       "buggy_code": "<h2 className={`text-22xl font-bold ${themeClasses.text} mb-1`}>{currentSong.title}</h2>",
       "css_selector": ".song-title",
-      "bounding_box": {
-        "x": 0,
-        "y": 0,
-        "width": 0,
-        "height": 0
-      }
+      "bounding_box": { "x": 65, "y": 249, "width": 382, "height": 24 }
     },
     {
+      "comment": "Bug #10 - background",
       "bug_category": "Color",
       "bug_type": "background",
       "file_modified": "src/index.css",
@@ -144,12 +124,7 @@
       "clean_code": "background: linear-gradient(135deg, #818cf8 0%, #ec4899 100%);",
       "buggy_code": "background: transparent;",
       "css_selector": "input[type=\"range\"]::-webkit-slider-thumb",
-      "bounding_box": {
-        "x": 0,
-        "y": 0,
-        "width": 0,
-        "height": 0
-      }
+      "bounding_box": { "x": 200, "y": 445, "width": 96, "height": 8 }
     }
   ]
 }
